@@ -61,11 +61,14 @@ shared_context "simple_tree" do
       when @state[6]
         -1
       when @state[7]
+        @received_7 = true
         5
       when @state[8]
         1
       when @state[9]
         -2
+      else
+        raise "invalid state #{state.inspect}"
       end
     end
 
@@ -81,6 +84,18 @@ describe 'Searcher', 'initialize' do
   end
 
   it "should find a good move at depth 2" do
+    @received_7 = false
     @searcher.search(@state[4], :depth => 2).should == @move40
+    @received_7.should == false
+  end
+
+  it "should find a good move from state 5 at depth 1" do
+    @received_7 = false
+    @searcher.search(@state[5], :depth => 1).should == @move57
+    @received_7.should == true
+  end
+
+  it "should find the only move from state 8 at depth 1" do
+    @searcher.search(@state[8], :depth => 1).should == @move89
   end
 end
