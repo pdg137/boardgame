@@ -3,14 +3,20 @@ require 'searcher'
 
 shared_context "simple_tree" do
   before do
-    # A GameState is a state of the game.
+    # Set up this tree of moves.  The number
+    # in parentheses represents the value that
+    # the evaluator should return.
+    # Note that this is complicated enough for
+    # alpha-beta to prune one evalution.
 
     #                 4(1)
     #             /       \             \
     #          0(1)         5(5)        8(1)
     #    1(5) 2(0) 3(11)  6(-1) 7(5)    9(-2)
+
+    # These 9 GameState objects represent possible states of the game.
     @state = []
-    20.times do |i|
+    9.times do |i|
       @state << double("state#{i}".to_sym)
     end
 
